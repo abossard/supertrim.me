@@ -1,0 +1,49 @@
+<html>
+	  <head>
+    <link type="text/css" rel="stylesheet" href="/css/main.css" />
+
+  </head>
+
+  <body>
+  	<h1>supertrim me!</h1>
+  	 <fb:login-button autologoutlink="true"></fb:login-button>
+
+    {% if current_user %}
+      <p><a href="{{ current_user.profile_url }}"><img src="http://graph.facebook.com/{{ current_user.id }}/picture?type=square"/></a></p>
+      <p>Hello, {{ current_user.name|escape }}</p>
+    {% endif %}
+    
+  	{% if user %}
+  		<h3>hi, {{ user }}</h3>
+  	    <form action="/enter_weight" method="post">
+	      <div><input name="weight" /></div>
+	      <div><input type="submit" value="Store"></div>
+	    </form>
+  		{% if weights %}
+  			<ul>
+	  		{% for weight in weights %}
+	  			<li>{{ weight.weight }} kg</li>
+	  		{% endfor %}
+	  		</ul>
+  		{% else %}
+  			<strong>Enter your first weight!</strong>
+  		{% endif %}
+  		<a href="{{ url }}">{{ url_linktext }}</a>
+  	{% else %}
+  		Please <a href="{{ url }}">{{ url_linktext }}</a> to track your weight!
+  	{% endif %}
+    <div id="fb-root"></div>
+	<script>
+	  var appid = (window.location.hostname=='localhost')?'350767808279':'195272993833585';
+	  window.fbAsyncInit = function() {
+	    FB.init({appId: appid, status: true, cookie: true, xfbml: true});
+	  };
+	  (function() {
+	    var e = document.createElement('script'); e.async = true;
+	    e.src = document.location.protocol +
+	      '//connect.facebook.net/en_US/all.js';
+	    document.getElementById('fb-root').appendChild(e);
+	  }());
+	</script>
+  </body>
+</html>
